@@ -66,3 +66,7 @@ This development and the accompanying paper were produced in collaboration
 with Claude (Anthropic), used through Claude Code: Claude drafted Agda code and
 text, ran experiments and searched the literature, under the author's
 direction. The author has checked the content and is responsible for it.
+
+## Licence
+
+MIT; see `LICENSE`.
