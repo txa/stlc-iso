@@ -392,18 +392,3 @@ normalS (φ ⇒≃ ψ) with normal φ | normalS ψ
 ... | h ,Σ p | k ,Σ q =
   arrHP h k ,Σ ~trans symD-⇒ (~trans (~⇒ (~symD p) q) (~sym (dr-arr h k)))
 normalS (swap {A} {B} {C}) = swapHP B A C ,Σ ~trans symD-swap (~sym (dr-swap B A C))
-
-------------------------------------------------------------------------
--- Faithfulness, from the two semantic facts still to be proved:
---   sound      : level-2 equal derivations have equal components
---   determined : a canonical derivation is determined by its components
-
-module Faithful
-  (sound      : ∀ {A B} {φ ψ : A ≃ B} → φ ~ ψ → to⟦ φ ⟧ {ε} ≡ to⟦ ψ ⟧ {ε})
-  (determined : ∀ {A B} (h h' : HPi A B) → to⟦ dr h ⟧ {ε} ≡ to⟦ dr h' ⟧ {ε} → h ≡ h')
-  where
-
-  faithful : ∀ {A B} (φ ψ : A ≃ B) → to⟦ φ ⟧ {ε} ≡ to⟦ ψ ⟧ {ε} → φ ~ ψ
-  faithful φ ψ e with normal φ | normal ψ
-  ... | h ,Σ p | h' ,Σ q with determined h h' (trans (sym (sound p)) (trans e (sound q)))
-  ...   | refl = ~trans p (~sym q)

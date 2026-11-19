@@ -15,8 +15,10 @@ For the simply typed λ-calculus with function types only, it proves:
   and congruence is an isomorphism (`STLC.Sound.derivations-sound`).
 - **Coherence**: two derivations are equal modulo the level-2 equations
   (groupoid laws, functoriality, swap², naturality of swap, braid) if and only
-  if they have the same meaning (`STLC.Determined.coherence`), every
-  derivation is equal to a canonical one (`STLC.Coherence.normal`), and every
+  if they have the same meaning (`STLC.Stable.coherence`), every
+  derivation is equal to a canonical one (`STLC.Coherence.normal`), the
+  meaning of a canonical derivation is its hereditary permutation
+  (stability, `STLC.Stable.stable`), and every
   isomorphism is the meaning of a derivation (`STLC.Derivable.surjective`,
   via `STLC.Derivable.hp-derivable`: the canonical derivation of a hereditary
   permutation has that permutation as its meaning).
@@ -56,8 +58,9 @@ default).
 | `Link` | from the predicate form of hereditary permutations to the inductive family |
 | `Coherence` | level-2 equations, insertion form, normal forms of derivations |
 | `Sound` | soundness of the level-2 equations |
-| `Determined` | canonical derivations are determined by their meaning; coherence |
-| `Derivable` | the meaning of a canonical derivation is its hereditary permutation; surjectivity |
+| `Actions` | how meanings of canonical derivations act on argument lists; heads and distinct variables |
+| `Derivable` | stability for the list form of hereditary permutations; surjectivity |
+| `Stable` | stability and faithfulness for the insertion form; coherence from (S), (N) and stability |
 | `Examples` | checks by computation |
 
 ## Use of AI tools

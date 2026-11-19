@@ -438,11 +438,3 @@ soundC (braid {A} {B} {C} {D}) =
 
 sound : ∀ {A B} {φ ψ : A ≃ B} → φ ~ ψ → to⟦ φ ⟧ {ε} ≡ to⟦ ψ ⟧ {ε}
 sound {φ = φ} {ψ} e = cong fw (trans (closed φ) (trans (soundC e) (sym (closed ψ))))
-
-------------------------------------------------------------------------
--- Faithfulness now depends only on determinacy (D).
-
-module FaithfulD
-  (determined : ∀ {A B} (h h' : HPi A B) → to⟦ dr h ⟧ {ε} ≡ to⟦ dr h' ⟧ {ε} → h ≡ h')
-  where
-  open Faithful sound determined public

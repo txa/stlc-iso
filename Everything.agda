@@ -19,6 +19,7 @@ import STLC.Easy
 import STLC.Link
 import STLC.Coherence
 import STLC.Sound
-import STLC.Determined
+import STLC.Actions
 import STLC.Derivable
+import STLC.Stable
 import STLC.Examples

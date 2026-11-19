@@ -5,7 +5,7 @@
 -- STLC.Iso).  With the characterisation this gives surjectivity: every
 -- isomorphism is the meaning of a derivation.
 --
--- As in STLC.Determined we only compute how meanings act on argument
+-- As in STLC.Actions we only compute how meanings act on argument
 -- lists, and recover the term by η:  t = λ ys. t ys.
 ------------------------------------------------------------------------
 module STLC.Derivable where
@@ -17,7 +17,7 @@ open import STLC.Subst
 open import STLC.Tele using (sub-as)
 open import STLC.Iso
 open import STLC.Sound
-open import STLC.Determined using (spOf; appNf-++; ++S-assoc; act-arr; act-swap)
+open import STLC.Actions using (spOf; appNf-++; ++S-assoc; act-arr; act-swap)
 open import STLC.Link using (characterisation-HP; splitA-eq)
 
 ------------------------------------------------------------------------

@@ -1,18 +1,15 @@
 {-# OPTIONS --rewriting #-}
 ------------------------------------------------------------------------
--- Coherence, part (D): canonical derivations are determined by their
--- meaning.  With (N) (Coherence.agda) and (S) (Sound.agda) this gives
--- Theorem coh:  φ ~ ψ  iff  ⟦ φ ⟧ = ⟦ ψ ⟧.
+-- How meanings of canonical derivations act on argument lists, and the
+-- facts about heads and distinct variables used for faithfulness
+-- (STLC.Stable) and for stability of the list form (STLC.Derivable).
 --
 -- We never write out the meaning of  dr h  as a normal form.  We only
 -- compute how it acts on an argument list:
 --   move_i ⟨ F ⟩  applied to  as   =  F applied to (as at i , rest of as)
 --   drs hs ⟨ x sp₀ ⟩  applied to  ys  =  x sp₀ (D h₁ ⟨ y_i ⟩) …
--- The head of  D h₁ ⟨ y ⟩  is y, so distinct ys determine the insertion,
--- and cancelling the renaming ⟨ y ⟩ recovers D h₁.
 ------------------------------------------------------------------------
-module STLC.Determined where
-
+module STLC.Actions where
 open import STLC.Prelude
 open import STLC.Syntax
 open import STLC.Lemmas
@@ -259,42 +256,3 @@ unhp2 {As} {Bs} {n} h = go h refl refl
   go : ∀ {A B} (h : HPi A B) (eA : A ≡ As ⇒* n) (eB : B ≡ Bs ⇒* n) → UnHP2 (subst2 HPi eA eB h)
   go (hpi {As'} {Bs'} {n'} hs) eA eB with ⇒*-inj As' As eA | ⇒*-inj Bs' Bs eB
   ... | refl ,Σ refl | refl ,Σ refl rewrite uip eA | uip eB = un2 hs
-
-------------------------------------------------------------------------
--- (D)
-
-inj   : ∀ {A B} (h h' : HPi A B) → fw C⟦ dr h ⟧ ≡ fw C⟦ dr h' ⟧ → h ≡ h'
-inj-s : ∀ {Δ As Bs n} (hs hs' : HPsi As Bs) (env : All (Var Δ) Bs)
-  → distinct env → spI {n = n} hs env ≡ spI hs' env → hs ≡ hs'
-
-inj (hpi {As} {Bs} {n} hs) h' e with unhp2 h'
-... | un2 hs' = cong hpi (inj-s hs hs' env (distinct-vars _ Bs) (ne-sp eq))
-  where
-  env = vars (ε ▷ (As ⇒* n)) Bs
-  x   = wkMany Bs (vz {ε} {As ⇒* n})
-  eq : ne2nf x (spI hs env) ≡ ne2nf x (spI hs' env)
-  eq = trans (sym (act-drs hs x []S env))
-      (trans (cong (λ G → appNf (G ⟨ ne2nf x []S ⟩) (spOf (mapA nvar env))) e)
-             (act-drs hs' x []S env))
-
-inj-s nil nil []A d e = refl
-inj-s (cons i h hs) (cons i' h' hs') env d e with ∷S-inj e
-... | e₁ ,Σ e₂
-  with pk-inj i i' env d
-         (FH-unique (fhD (dr h) (pk i env))
-                    (subst (FH (pk i' env)) (sym e₁) (fhD (dr h') (pk i' env))))
-...   | same with inj h h' (cancel (pk i env) _ _ e₁)
-                | inj-s hs hs' (rest i env) (distinct-rest i env d) e₂
-...     | refl | refl = refl
-
-determined : ∀ {A B} (h h' : HPi A B) → to⟦ dr h ⟧ {ε} ≡ to⟦ dr h' ⟧ {ε} → h ≡ h'
-determined h h' e = inj h h' (trans (sym (cong fw (closed (dr h)))) (trans e (cong fw (closed (dr h')))))
-
-------------------------------------------------------------------------
--- Theorem coh:  two derivations are level-2 equal iff they have the same
--- meaning, and every derivation is level-2 equal to a canonical one.
-
-open FaithfulD determined public using (faithful)
-
-coherence : ∀ {A B} (φ ψ : A ≃ B) → (φ ~ ψ → to⟦ φ ⟧ {ε} ≡ to⟦ ψ ⟧ {ε}) × (to⟦ φ ⟧ {ε} ≡ to⟦ ψ ⟧ {ε} → φ ~ ψ)
-coherence φ ψ = sound ,Σ faithful φ ψ
