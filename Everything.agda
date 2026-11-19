@@ -20,4 +20,5 @@ import STLC.Link
 import STLC.Coherence
 import STLC.Sound
 import STLC.Determined
+import STLC.Derivable
 import STLC.Examples
