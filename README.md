@@ -2,9 +2,8 @@
 
 Agda formalisation accompanying the paper
 
-> Thorsten Altenkirch. *Isomorphisms of simple types are hereditary
-> permutations: a syntactic proof, with coherence, formalised in Agda.*
-> (arXiv link to follow)
+> Thorsten Altenkirch. *Hereditary permutations for simple types revisited:
+> a baby case for University Algebra.* (arXiv link to follow)
 
 For the simply typed λ-calculus with function types only, it proves:
 
