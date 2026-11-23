@@ -5,8 +5,10 @@
 --
 -- A matched pair consists of two one-sided equations sharing P and Q:
 --
---   (P)  P ∘ ⟨ α ∘ p , Q ∘ ⟨ β ∘ p , q_X ⟩ ⟩ = q_X       over Γ₁ ⧺ X
---   (Q)  Q ∘ ⟨ β₀ ∘ p , P ∘ ⟨ α₀ ∘ p , q_Y ⟩ ⟩ = q_Y     over Γ₂ ⧺ Y
+--   (P)  P ∘ ⟨ α₁ ∘ p , Q ∘ ⟨ β₁ ∘ p , q_X ⟩ ⟩ = q_X       over Γ₁ ⧺ X
+--   (Q)  Q ∘ ⟨ β₂ ∘ p , P ∘ ⟨ α₂ ∘ p , q_Y ⟩ ⟩ = q_Y     over Γ₂ ⧺ Y
+--
+-- The target telescopes X and Y are Θ and Ξ in the note.
 --
 -- Every lemma is proved once, for a OneSided equation, and applied to
 -- both sides.

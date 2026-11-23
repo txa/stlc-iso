@@ -14,7 +14,10 @@ import STLC.LamI
 import STLC.Tele
 import STLC.Descent
 import STLC.Thin
+import STLC.Count
+import STLC.Linear
 import STLC.Char
+import STLC.Linearity
 import STLC.Easy
 import STLC.Link
 import STLC.Coherence

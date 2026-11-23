@@ -11,10 +11,12 @@ open import STLC.Lemmas
 open import STLC.Subst
 open import STLC.Heads
 open import STLC.LamI
+open import STLC.Count using (LIS; LIS-↑; LI-[]; LIs-[])
 open import STLC.Tele
 open import STLC.Thin
 open import STLC.Iso
 open import STLC.Descent
+open import STLC.Linear using (module NoStray)
 
 ------------------------------------------------------------------------
 -- λI substitutions
@@ -66,10 +68,6 @@ LIS-spine : ∀ {Γ σ τ} {x : Var Γ σ} {t : Nf Γ τ} (h : FH x t) → LI t
   → LIS (spToSub (fst (FH-unlam h)))
 LIS-spine h l = LIS-spToSub (LIs-of-ne (subst LI (snd (FH-unlam h)) (LI-unlam⁺ l)))
 
-FH-occ : ∀ {Γ σ τ} {x : Var Γ σ} {t : Nf Γ τ} → FH x t → x ∈ t
-FH-occ (fh-lam h) = o-lam (FH-occ h)
-FH-occ fh-ne      = o-hd
-
 ------------------------------------------------------------------------
 -- λI matched pairs, and the descent preserves them
 
@@ -113,38 +111,14 @@ flip-LI M l = record { lP = lQ ; lQ = lP ; lαL = lαR ; lβL = lβR ; lαR = l�
   where open LIMP l
 
 ------------------------------------------------------------------------
--- Lemma (no stray variables): in a λI matched pair, the only variable
--- occurring in P_i is its head.
+-- Lemma (no stray variables, STLC.Linear): in a λI matched pair, the
+-- only variable occurring in P_i is its head.
 
 module Stray (M : MP) where
   open MP M
-  open OneSided left using (Γ₁ ; α ; β ; hfα)
+  open OneSided left using (Γ₁ ; α ; β)
 
-  FH-ρP-L : ∀ {σ σ'} (u : Var ΓP σ) {w : Var Γ₁ σ'} → FH w (lookup α u)
-    → FH (injL X w) (lookup (OS.ρP left) (injL Y u))
-  FH-ρP-L u {w} fw =
-    subst (FH (injL X w))
-          (sym (trans (lookup-⊕L (α ∘s p {Γ₁} X) (Q ∘s αL X β) u) (lookup-∘s α (p {Γ₁} X) u)))
-          (FH-p X fw)
-
-  stray : ∀ {σ σ'} (i : Var X σ) (y : Var Y σ')
-    → FH (injR {ΓP} Y y) (lookup P i)
-    → LI (lookup P i) → LIS (OS.ρP left)
-    → ∀ {ρ} {v : Var (ΓP ⧺ Y) ρ} → v ∈ lookup P i → v ≈ injR {ΓP} Y y
-  stray i y fP lP lρ {v = v} o with split {ΓP} Y v
-  ... | inL u with hfα u
-  ...   | _ ,Σ (w ,Σ fw) =
-    ⊥-elim (injL≉injR X w i
-      (∈-nvar _ (subst (injL X w ∈_) (OS.eq-at left i)
-                  (keep-[] (lookup P i) (OS.ρP left) lP lρ o (FH-occ (FH-ρP-L u fw))))))
-  stray i y fP lP lρ {v = v} o | inR j with OS.heads-P right j
-  ... | _ ,Σ (i'' ,Σ fQ)
-    with injR-inj {Γ₁} X i'' i
-           (∈-nvar _ (subst (injR {Γ₁} X i'' ∈_) (OS.eq-at left i)
-                       (keep-[] (lookup P i) (OS.ρP left) lP lρ o
-                         (FH-occ (subst (FH _) (sym (OS.lookup-ρP left j)) (OS.FH-Qα left j fQ))))))
-  ...   | ≈refl with OS.heads-match right j i y fQ fP
-  ...     | ≈refl = ≈refl
+  stray = NoStray.stray M
 
   -- the first-level equation, once P_i and Q_y are strengthened
   comp-eq : ∀ {σ σ'} (i : Var X σ) (y : Var Y σ') (P' : Nf (ε ▷ σ') σ) (Q' : Nf (ε ▷ σ) σ')

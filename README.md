@@ -23,8 +23,20 @@ For the simply typed λ-calculus with function types only, it proves:
   via `STLC.Derivable.hp-derivable`: the canonical derivation of a hereditary
   permutation has that permutation as its meaning).
 
+- **Linearity**: both components of an isomorphism are linear terms: the input
+  and every bound variable occur exactly once (`STLC.Linearity.linearity`).
+
 The proof of the characterisation is purely syntactic: a descent through both
-components of an isomorphism at once, with no completeness theorem.
+components of an isomorphism at once, with no completeness theorem. It goes
+through linearity: relevance (`STLC.Descent.relevance`) follows from one inverse
+equation, and no copying (`STLC.Linear`) from relevance of the other component
+together with a counting lemma for hereditary substitution (`STLC.Count.cnt-[]`).
+
+## Versions
+
+- `v2.0`: the characterisation proved via linearity (relevance and no copying);
+  adds `STLC.Count`, `STLC.Linear` and `STLC.Linearity`.
+- `v1.1`: the version of the first arXiv submission.
 
 ## Checking
 
@@ -49,11 +61,14 @@ default).
 | `Subst` | simultaneous substitution, its category laws, pairing |
 | `Iso` | isomorphisms, derivations and their meaning, hereditary permutations, statements |
 | `Heads` | occurrences, free and bound heads; no creation; heads under substitution |
-| `LamI` | the λI predicate and its preservation |
+| `LamI` | the λI predicate, weakening and η-expansion |
 | `Tele` | telescopes, bodies of η-long terms, spines as substitutions |
 | `Descent` | matched pairs and the descent; relevance |
 | `Thin` | thinnings, strengthening, cancellation of renamings |
-| `Char` | no stray variables; the characterisation |
+| `Count` | counting occurrences; λI is preserved and substitution does not erase |
+| `Linear` | no copying in matched pairs; no stray variables |
+| `Char` | the characterisation |
+| `Linearity` | isomorphisms are linear terms |
 | `Easy` | hereditary permutations are invertible |
 | `Link` | from the predicate form of hereditary permutations to the inductive family |
 | `Coherence` | level-2 equations, insertion form, normal forms of derivations |
