@@ -3,7 +3,7 @@
 Agda formalisation accompanying the paper
 
 > Thorsten Altenkirch. *Hereditary permutations for simple types revisited:
-> a baby case for University Algebra.* (arXiv link to follow)
+> a baby case for University Algebra.* [arXiv:2611.26507](https://arxiv.org/abs/2611.26507)
 
 For the simply typed λ-calculus with function types only, it proves:
 
